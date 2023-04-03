@@ -39,7 +39,7 @@ function App() {
 	useEffect(() => {
 		async function checkToken() {
 			const token = await SecureStore.getItemAsync(TOKEN_KEY);
-			if (!token) setConnected(false);
+			if (!token) return setConnected(false);
 
 			return setConnected(true);
 		}
