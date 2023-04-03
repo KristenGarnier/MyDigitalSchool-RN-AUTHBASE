@@ -8,6 +8,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@ap
 import { setContext } from '@apollo/client/link/context';
 import * as SecureStore from 'expo-secure-store';
 import { TOKEN_KEY } from './src/lib/constants/index';
+import { useUserStore } from './src/lib/store/user';
 
 const httpLink = createHttpLink({
 	uri: 'https://digitalcampus.nerdy-bear.com/graphql',
@@ -35,6 +36,7 @@ const Loader = () => <Text>Loading...</Text>;
 
 function App() {
 	const [connected, setConnected] = useState(undefined);
+	const { connected: connectedStore } = useUserStore();
 
 	useEffect(() => {
 		async function checkToken() {
@@ -45,7 +47,7 @@ function App() {
 		}
 
 		checkToken();
-	}, []);
+	}, [connectedStore]);
 
 	return (
 		<ApolloProvider client={client}>

@@ -6,10 +6,12 @@ import { useNavigation } from '@react-navigation/native';
 
 import { LOGIN_MUTATION } from '../lib/gql/index';
 import { TOKEN_KEY } from '../lib/constants/index';
+import { useUserStore } from '../lib/store/user';
 
 export function Login() {
 	const [login] = useMutation(LOGIN_MUTATION);
 	const navigation = useNavigation();
+	const { setConnected } = useUserStore();
 
 	const [form, setForm] = useState({
 		identifier: '',
@@ -34,7 +36,7 @@ export function Login() {
 		});
 
 		await SecureStore.setItemAsync(TOKEN_KEY, res.data.login.jwt);
-		navigation.navigate('Home');
+		setConnected(true);
 	}
 
 	return (
